@@ -103,21 +103,21 @@ var currentlyPlayingSong = null;
  };
 
  var findParentByClassName = function(element, targetClass) {
-   if (element) {
-+    var currentParent = element.parentElement;
-+    if (currentParent === null) {
-+      console.log("No parent found");
-+      return;
-+    }
-+    while (currentParent !== null && currentParent.className !== targetClass) {
-+      currentParent = currentParent.parentElement;
+     if (element) {
+         if(element.parentElement == null){
+             alert("No parent found");
+         }else{
+             var currentParent = element.parentElement;
+             while (currentParent.className != targetClass && currentParent.className !== null) {
+                 currentParent = currentParent.parentElement;
+             }
+             if(currentParent.className != targetClass){
+                 alert("No parent found with that class name");
+             }else{
+                 return currentParent;
+             }
+         }
      }
-+    if (currentParent === null) {
-+      console.log("No parent found with that class name");
-+      return;
-+    }
-+    return currentParent;
-+  }
  };
 
  var getSongItem = function(element) {
