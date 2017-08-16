@@ -61,6 +61,7 @@ var createSongRow = function(songNumber, songName, songLength) {
            setSong(songNumber);
            console.log("currentSoundFile", currentSoundFile);
            currentSoundFile.play();
+           updateSeekBarWhileSongPlays();
            currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
            updatePlayerBarSong();
          } else if (currentlyPlayingSongNumber === songNumber) {
@@ -68,6 +69,7 @@ var createSongRow = function(songNumber, songName, songLength) {
              $(this).html(pauseButtonTemplate);
              $('main-controls .play-pause').html(playerBarPauseButton);
              currentSoundFile.play();
+             updateSeekBarWhileSongPlays();
            } else {
              $(this).html(playButtonTemplate);
              $('main-controls .play-pause').html(playerBarPlayButton);
@@ -156,7 +158,8 @@ var createSongRow = function(songNumber, songName, songLength) {
          var barWidth = $(this).width();
          // #4
          var seekBarFillRatio = offsetX / barWidth;
-
+         if (!currentSoundFile)
+            setSong('1');
          if ($(this).parent().attr('class') == 'seek-control') {
          seek(seekBarFillRatio * currentSoundFile.getDuration());
      } else {
@@ -176,6 +179,8 @@ var createSongRow = function(songNumber, songName, songLength) {
              var barWidth = $seekBar.width();
              var seekBarFillRatio = offsetX / barWidth;
 
+             if (!currentSoundFile)
+                setSong('1');
              if ($seekBar.parent().attr('class') == 'seek-control') {
                  seek(seekBarFillRatio * currentSoundFile.getDuration());
              } else {
@@ -215,6 +220,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
     // Update the Player Bar information
+    updateSeekBarWhileSongPlays();
     updatePlayerBarSong();
 
     var $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
@@ -242,6 +248,7 @@ var previousSong = function() {
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
 
     // Update the Player Bar information
+    updateSeekBarWhileSongPlays();
     updatePlayerBarSong();
 
     $('.main-controls .play-pause').html(playerBarPauseButton);
